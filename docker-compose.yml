@@ -1,0 +1,23 @@
+version: "3.9"  # Specify the Docker Compose file format version
+
+services:
+  app:
+    build: .  # Build the image from the Dockerfile in the current directory
+    ports:
+      - "3000:3000"  # Map port 3000 of the container to port 3000 on the host
+    depends_on:
+      - db  # Ensure the database is started before the application
+    volumes:
+      - .:/app  # Mount the current directory as a volume inside the container
+
+  db:
+    image: postgres:14.4  # Use the official PostgreSQL image
+    environment:
+      POSTGRES_USER: myapp  # Set database user
+      POSTGRES_PASSWORD: password  # Set database password
+    volumes:
+      - db_data:/var/lib/postgresql/data  # Create a volume for persistent data
+
+volumes:
+  db_data:  # Define the volume for database data
+
